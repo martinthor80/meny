@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Menyplanerare - Test</title>
+<style>
+  body {
+    margin: 0;
+    background: #f3efe7;
+    color: #29251f;
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  h1 {
+    font: 700 48px/1.1 Georgia, serif;
+    margin: 0 0 40px;
+    text-align: center;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-decoration: none;
+    color: inherit;
+  }
+  .card-icon { font-size: 40px; margin-bottom: 8px; }
+  .card-title { font: 700 20px Georgia, serif; margin: 0; }
+  .card-count { font-size: 14px; color: #655f55; margin-top: 4px; }
+
+  /* Layout för testet */
+  .planner-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  h2 { font: 700 24px Georgia, serif; margin: 0 0 20px; border-bottom: 2px solid #ddd5c8; padding-bottom: 12px; }
+  .recipe-list { list-style: none; padding: 0; margin: 0; }
+  .recipe-list li {
+    margin: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fcfbfa;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #eee9df;
+  }
+  .recipe-list a { color: #29251f; text-decoration: none; font-weight: 500; }
+  .add-btn {
+    background: #f4efe9;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Menyplanerare</h1>
+
+  <!-- Kategorikort -->
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon">🍗</div>
+      <div class="card-title">Kyckling</div>
+      <div id="count-kyckling" class="card-count">0 recept</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🍲</div>
+      <div class="card-title">Köttfärs</div>
+      <div id="count-kottfars" class="card-count">0 recept</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🐟</div>
+      <div class="card-title">Fisk</div>
+      <div id="count-fisk" class="card-count">0 recept</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">...</div>
+      <div class="card-title">Pasta</div>
+      <div id="count-pasta" class="card-count">0 recept</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🍲</div>
+      <div class="card-title">Soppa</div>
+      <div id="count-soppa" class="card-count">0 recept</div>
+    </div>
+  </div>
+
+  <!-- Söndagsplaneringen -->
+  <div class="planner-layout">
+    
+    <!-- Välj recept -->
+    <div class="box">
+      <h2>Välj recept</h2>
+      <ul id="main-recipe-list" class="recipe-list">
+        <li>
+          <a href="kyckling/kyckling-teriyaki-pak-choi.html">Kyckling teriyaki med pak choi sallad</a>
+          <button class="add-btn">＋</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Inköpslistan hamnar här sen -->
+    <div class="box">
+      <h2>Inköpslista</h2>
+      <p style="color: #655f55;">Här kommer ingredienserna att dyka upp...</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Räknar kategorierna automatiskt när sidan laddas
+  document.addEventListener("DOMContentLoaded", function() {
+    const counts = { kyckling: 0, kottfars: 0, fisk: 0, pasta: 0, soppa: 0 };
+    const recipeLinks = document.querySelectorAll("#main-recipe-list a");
+    
+    recipeLinks.forEach(link => {
+      const href = link.getAttribute("href");
+      if (href.startsWith("kyckling/")) counts.kyckling++;
+      else if (href.startsWith("kottfars/")) counts.kottfars++;
+      else if (href.startsWith("fisk/")) counts.fisk++;
+      else if (href.startsWith("pasta/")) counts.pasta++;
+      else if (href.startsWith("soppa/")) counts.soppa++;
+    });
+    
+    for (const kat in counts) {
+      const el = document.getElementById("count-" + kat);
+      if (el) el.textContent = counts[kat] + " recept";
+    }
+  });
+</script>
+
+</body>
+</html>
