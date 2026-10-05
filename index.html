@@ -1,158 +1,169 @@
 <!doctype html>
 <html lang="sv">
 <head>
+  <!-- Här kopplar vi ihop sidan med din style.css -->
+  <link rel="stylesheet" href="style.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Menyplanerare - Test</title>
-<style>
-  body {
-    margin: 0;
-    background: #f3efe7;
-    color: #29251f;
-    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-  }
-  .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
-  }
-  h1 {
-    font: 700 48px/1.1 Georgia, serif;
-    margin: 0 0 40px;
-    text-align: center;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-  .card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    text-decoration: none;
-    color: inherit;
-  }
-  .card-icon { font-size: 40px; margin-bottom: 8px; }
-  .card-title { font: 700 20px Georgia, serif; margin: 0; }
-  .card-count { font-size: 14px; color: #655f55; margin-top: 4px; }
+<title>Mina recept</title>
 
-  /* Layout för testet */
-  .planner-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-  .box {
-    background: #fff;
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  }
-  h2 { font: 700 24px Georgia, serif; margin: 0 0 20px; border-bottom: 2px solid #ddd5c8; padding-bottom: 12px; }
-  .recipe-list { list-style: none; padding: 0; margin: 0; }
-  .recipe-list li {
-    margin: 12px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fcfbfa;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 1px solid #eee9df;
-  }
-  .recipe-list a { color: #29251f; text-decoration: none; font-weight: 500; }
-  .add-btn {
-    background: #f4efe9;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+<style>
+/* Startsidans unika layout behålls här, resten styrs av din style.css */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:24px;
+  margin-bottom:40px
+}
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:32px;
+  text-align:center;
+  box-shadow:0 4px 15px rgba(0,0,0,0.06);
+  transition:transform 0.2s,box-shadow 0.2s;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 8px 25px rgba(0,0,0,0.12)
+}
+.card-icon{ font-size:48px; margin-bottom:16px }
+.card-title{ font:700 24px Georgia,serif; margin:0 }
+.card-count{ font-size:14px; color:#655f55; margin-top:8px }
+
+/* Tvåkolumnslayout för veckomeny och inköpslista längst ner */
+.planner-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+@media(max-width:700px){
+  .planner-layout { grid-template-columns: 1fr; }
+}
+.box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.box h2 { font-family: Georgia, serif; margin-top: 0; border-bottom: 2px solid #f3efe7; padding-bottom: 8px; }
+.purge-btn {
+  background: #ffeded; color: #c93b3b; border: 1px solid #ffcccc;
+  padding: 10px 16px; border-radius: 20px; cursor: pointer;
+  font-weight: bold; width: 100%; margin-top: 15px;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>Menyplanerare</h1>
 
-  <!-- Kategorikort -->
-  <div class="grid">
-    <div class="card">
-      <div class="card-icon">🍗</div>
-      <div class="card-title">Kyckling</div>
-      <div id="count-kyckling" class="card-count">0 recept</div>
-    </div>
-    <div class="card">
-      <div class="card-icon">🍲</div>
-      <div class="card-title">Köttfärs</div>
-      <div id="count-kottfars" class="card-count">0 recept</div>
-    </div>
-    <div class="card">
-      <div class="card-icon">🐟</div>
-      <div class="card-title">Fisk</div>
-      <div id="count-fisk" class="card-count">0 recept</div>
-    </div>
-    <div class="card">
-      <div class="card-icon">...</div>
-      <div class="card-title">Pasta</div>
-      <div id="count-pasta" class="card-count">0 recept</div>
-    </div>
-    <div class="card">
-      <div class="card-icon">🍲</div>
-      <div class="card-title">Soppa</div>
-      <div id="count-soppa" class="card-count">0 recept</div>
-    </div>
+<h1>Mina recept</h1>
+
+<!-- 1. Klickbara kategorier -->
+<div class="grid">
+  <a href="kyckling/" class="card">
+    <div class="card-icon">🍗</div>
+    <div class="card-title">Kyckling</div>
+    <div id="count-kyckling" class="card-count">Laddar...</div>
+  </a>
+  <a href="kottfars/" class="card">
+    <div class="card-icon">🍲</div>
+    <div class="card-title">Köttfärs</div>
+    <div id="count-kottfars" class="card-count">Laddar...</div>
+  </a>
+  <a href="fisk/" class="card">
+    <div class="card-icon">🐟</div>
+    <div class="card-title">Fisk</div>
+    <div id="count-fisk" class="card-count">Laddar...</div>
+  </a>
+  <a href="pasta/" class="card">
+    <div class="card-icon">🍝</div>
+    <div class="card-title">Pasta</div>
+    <div id="count-pasta" class="card-count">Laddar...</div>
+  </a>
+  <a href="soppa/" class="card">
+    <div class="card-icon">🍲</div>
+    <div class="card-title">Soppa</div>
+    <div id="count-soppa" class="card-count">Laddar...</div>
+  </a>
+</div>
+
+<!-- 2. Veckans översikt (Valda recept & inköpslista) -->
+<div class="planner-layout">
+  <div class="box">
+    <h2>Valda recept för veckan</h2>
+    <ul id="selected-menu-list" class="recipe-list">
+      <!-- Här hamnar era valda recept -->
+    </ul>
+    <button class="purge-btn" onclick="purgeEverything()">Rensa allt / Ny söndag</button>
   </div>
 
-  <!-- Söndagsplaneringen -->
-  <div class="planner-layout">
-    
-    <!-- Välj recept -->
-    <div class="box">
-      <h2>Välj recept</h2>
-      <ul id="main-recipe-list" class="recipe-list">
-        <li>
-          <a href="kyckling/kyckling-teriyaki-pak-choi.html">Kyckling teriyaki med pak choi sallad</a>
-          <button class="add-btn">＋</button>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Inköpslistan hamnar här sen -->
-    <div class="box">
-      <h2>Inköpslista</h2>
-      <p style="color: #655f55;">Här kommer ingredienserna att dyka upp...</p>
-    </div>
-
+  <div class="box">
+    <h2>Inköpslista</h2>
+    <ul id="shopping-list" class="recipe-list">
+      <!-- Här hamnar ingredienserna -->
+    </ul>
   </div>
 </div>
 
+</div>
+
 <script>
-  // Räknar kategorierna automatiskt när sidan laddas
+  let chosenRecipes = JSON.parse(localStorage.getItem('chosenRecipes')) || [];
+  let shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || [];
+
   document.addEventListener("DOMContentLoaded", function() {
-    const counts = { kyckling: 0, kottfars: 0, fisk: 0, pasta: 0, soppa: 0 };
-    const recipeLinks = document.querySelectorAll("#main-recipe-list a");
-    
-    recipeLinks.forEach(link => {
-      const href = link.getAttribute("href");
-      if (href.startsWith("kyckling/")) counts.kyckling++;
-      else if (href.startsWith("kottfars/")) counts.kottfars++;
-      else if (href.startsWith("fisk/")) counts.fisk++;
-      else if (href.startsWith("pasta/")) counts.pasta++;
-      else if (href.startsWith("soppa/")) counts.soppa++;
-    });
-    
-    for (const kat in counts) {
-      const el = document.getElementById("count-" + kat);
-      if (el) el.textContent = counts[kat] + " recept";
-    }
+    updateUI();
+    document.getElementById("count-kyckling").textContent = "1 recept";
   });
+
+  function updateUI() {
+    const menuEl = document.getElementById('selected-menu-list');
+    const shopEl = document.getElementById('shopping-list');
+    
+    menuEl.innerHTML = chosenRecipes.length === 0 ? '<li style="padding:15px; color:#655f55;">Inga recept valda. Klicka på en kategori ovan!</li>' : '';
+    shopEl.innerHTML = shoppingList.length === 0 ? '<li style="padding:15px; color:#655f55;">Inköpslistan är tom...</li>' : '';
+
+    chosenRecipes.forEach(recipe => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${recipe.url}"><span>${recipe.title}</span></a>`;
+      menuEl.appendChild(li);
+    });
+
+    shoppingList.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#" onclick="toggleCheck(${index}); return false;"><span>${item.text}</span> <span>${item.checked ? '☑' : '☐'}</span></a>`;
+      if(item.checked) {
+        li.style.opacity = '0.5';
+        li.style.textDecoration = 'line-through';
+      }
+      shopEl.appendChild(li);
+    });
+  }
+
+  function toggleCheck(index) {
+    shoppingList[index].checked = !shoppingList[index].checked;
+    localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+    updateUI();
+  }
+
+  function purgeEverything() {
+    if (confirm("Vill du rensa veckans meny och inköpslista för att börja om?")) {
+      chosenRecipes = [];
+      shoppingList = [];
+      localStorage.removeItem('chosenRecipes');
+      localStorage.setItem('shoppingList', JSON.stringify([]));
+      updateUI();
+    }
+  }
 </script>
 
 </body>
