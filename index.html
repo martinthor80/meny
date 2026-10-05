@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="sv">
 <head>
-  <!-- Här kopplar vi ihop sidan med din style.css -->
+  <!-- Vi kopplar ihop sidan med din style.css -->
   <link rel="stylesheet" href="style.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -53,6 +53,17 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 .box h2 { font-family: Georgia, serif; margin-top: 0; border-bottom: 2px solid #f3efe7; padding-bottom: 8px; }
+
+/* --- HÄR KRYMPER VI RECEPTKORTEN OCH GÖR DEM MINDRE --- */
+.recipe-list li {
+  margin-bottom: 6px !important; /* Minskar avståndet mellan korten */
+}
+
+.recipe-list a {
+  padding: 10px 16px !important; /* Gör själva det vita kortet mycket mer kompakt */
+  font-size: 15px !important;    /* Gör texten mindre (tidigare 20px) */
+}
+
 .purge-btn {
   background: #ffeded; color: #c93b3b; border: 1px solid #ffcccc;
   padding: 10px 16px; border-radius: 20px; cursor: pointer;
@@ -129,8 +140,8 @@
     const menuEl = document.getElementById('selected-menu-list');
     const shopEl = document.getElementById('shopping-list');
     
-    menuEl.innerHTML = chosenRecipes.length === 0 ? '<li style="padding:15px; color:#655f55;">Inga recept valda. Klicka på en kategori ovan!</li>' : '';
-    shopEl.innerHTML = shoppingList.length === 0 ? '<li style="padding:15px; color:#655f55;">Inköpslistan är tom...</li>' : '';
+    menuEl.innerHTML = chosenRecipes.length === 0 ? '<li style="padding:15px; color:#655f55; background:none; box-shadow:none;">Inga recept valda. Klicka på en kategori ovan!</li>' : '';
+    shopEl.innerHTML = shoppingList.length === 0 ? '<li style="padding:15px; color:#655f55; background:none; box-shadow:none;">Inköpslistan är tom...</li>' : '';
 
     chosenRecipes.forEach(recipe => {
       const li = document.createElement('li');
