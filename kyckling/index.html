@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <!-- Vi länkar tillbaka till vår gemensamma style.css som ligger i mappen ovanför -->
+  <link rel="stylesheet" href="../style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kycklingrecept</title>
+<style>
+  /* Extra styling för välj-knappen så den matchar designen */
+  .add-btn {
+    background: #f4efe9;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    transition: background 0.2s;
+  }
+  .add-btn:hover { background: #8b7d6b; color: white; }
+  .recipe-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding-right: 24px !important;
+  }
+  .recipe-item a {
+    flex: 1 !important;
+    padding-right: 10px !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- Tillbaka-knapp till startsidan -->
+  <a href="../" class="back">← Tillbaka</a>
+
+  <h1>Kyckling</h1>
+
+  <div class="recipes-section">
+    <ul class="recipe-list">
+      
+      <!-- Det här är raden för ert första recept -->
+      <li class="recipe-item">
+        <a href="kyckling-teriyaki-pak-choi.html">
+          <span>Kyckling teriyaki med pak choi sallad</span>
+          <span>⭐⭐⭐⭐⭐</span>
+        </a>
+        <!-- Knappen för att välja receptet till söndagsplaneringen -->
+        <button class="add-btn" onclick="selectRecipe('kyckling/kyckling-teriyaki-pak-choi.html', 'Kyckling teriyaki med pak choi sallad')">＋ Välj</button>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<script>
+  // Den här funktionen körs när ni klickar på "＋ Välj"
+  async function selectRecipe(url, title) {
+    let chosenRecipes = JSON.parse(localStorage.getItem('chosenRecipes')) || [];
+    let shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || [];
+
+    // Kolla om receptet redan är valt så vi inte lägger till det dubbelt
+    if (chosenRecipes.some(r => r.url === url)) {
+      alert("Det här receptet är redan valt för veckan!");
+      return;
+    }
+
+    // 1. Lägg till receptet i veckomenyn
+    chosenRecipes.push({ url: url, title: title });
+    localStorage.setItem('chosenRecipes', JSON.stringify(chosenRecipes));
+
+    // 2. MAGIN: Hämta ingredienserna direkt från receptsidan helt automatiskt!
+    try {
+      const response = await fetch(url);
+      const htmlText = await response.text();
+      
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlText, 'text/html');
+      
+      // Vi letar efter alla punktlist-rader (li) under rubriken Ingredienser på receptsidan
+      const ingredientElements = doc.querySelectorAll('ul li');
+      
+      ingredientElements.forEach(el => {
+        const text = el.textContent.trim();
+        if (text && !shoppingList.some(item => item.text === text)) {
+          shoppingList.push({ text: text, checked: false });
+        }
+      });
+
+      localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+      alert('Receptet tillagt i Veckans Meny och ingredienserna har skickats till Inköpslistan!');
+    } catch (error) {
+      console.error("Kunde inte hämta ingredienser automatiskt:", error);
+      alert('Receptet tillagt, men kunde inte läsa in ingredienser automatiskt.');
+    }
+  }
+</script>
+
+</body>
+</html>
