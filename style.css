@@ -1,5 +1,5 @@
-/* Den sandfärgade bakgrunden och sidmarginaler på planeringssidorna */
-body.planner-page {
+/* Den sandfärgade bakgrunden och sidmarginaler på planeringssidan */
+body.planner-body {
     background-color: #f3efe7 !important;
     margin: 0;
     padding: 40px 20px !important;
@@ -7,13 +7,13 @@ body.planner-page {
 }
 
 /* Behållarboxen för innehållet */
-.planner-page .container {
+.planner-body .container {
     max-width: 800px;
     margin: 0 auto;
 }
 
 /* Den yttre samlingsboxen – helt transparent */
-.planner-page .recipes-section {
+.planner-body .recipes-section {
     background: transparent !important;
     box-shadow: none !important;
     padding: 0 !important;
@@ -21,14 +21,14 @@ body.planner-page {
 }
 
 /* Rensar bort list-prickar */
-.planner-page .recipe-list {
+.planner-body .recipe-list {
     list-style: none !important;
     padding: 0 !important;
     margin: 0 !important;
 }
 
 /* Det klickbara vita kortet i listorna */
-.planner-page .recipe-list li {
+.planner-body .recipe-list li {
     background-color: #ffffff !important;
     border-radius: 12px !important;
     margin-bottom: 12px !important;
@@ -37,13 +37,13 @@ body.planner-page {
 }
 
 /* Lyft-effekt vid hover */
-.planner-page .recipe-list li:hover {
+.planner-body .recipe-list li:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(0,0,0,0.08) !important;
 }
 
 /* Högerställningen för länkar/stjärnor i listorna */
-.planner-page .recipe-list a {
+.planner-body .recipe-list a {
     color: #29251f !important;
     text-decoration: none !important;
     font-family: "Helvetica Neue", Arial, sans-serif !important;
@@ -55,12 +55,12 @@ body.planner-page {
     padding: 18px 24px !important;
 }
 
-.planner-page .recipe-list a span:last-child {
+.planner-body .recipe-list a span:last-child {
     letter-spacing: 2px;
 }
 
 /* "← Tillbaka"-knappen */
-.planner-page .back {
+.planner-body .back {
     display: inline-block;
     background-color: #ffffff !important;
     color: #29251f !important;
@@ -75,6 +75,6 @@ body.planner-page {
     transition: transform 0.2s;
 }
 
-.planner-page .back:hover {
+.planner-body .back:hover {
     transform: translateY(-2px);
 }
